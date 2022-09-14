@@ -53,7 +53,7 @@ class SMZDM_Bot(object):
         content = msg.text
         data = json.loads(content[content.find("{"):content.rfind(")")])
         if data.get("error_code") == 0:
-            res = "张大妈签到成功！！！总签到天数：" + data.get("data").get("checkin_num")
+            res = "张大妈签到成功！！！总签到天数：" + str(data.get("data").get("checkin_num"))
         else:
             res = "签到失败，原因：" + data.get("error_msg")
         return res
