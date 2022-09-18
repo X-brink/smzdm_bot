@@ -59,20 +59,33 @@ class SMZDM_Bot(object):
         return res
 
 
-
+def push_res_to_server(SERVERCHAN_SECRETKEY, res):
+    if SERVERCHAN_SECRETKEY:
+        print('sc_key: ', SERVERCHAN_SECRETKEY)
+        if isinstance(SERVERCHAN_SECRETKEY,str) and len(SERVERCHAN_SECRETKEY)>0:
+            print('检测到 SCKEY， 准备推送')
+            push_to_wechat(text = '什么值得买每日签到',
+                            desp = str(res),
+                            secretKey = SERVERCHAN_SECRETKEY)
 
 if __name__ == '__main__':
     sb = SMZDM_Bot()
-    # sb.load_cookie_str(config.TEST_COOKIE)
-    cookies = os.environ["COOKIES"]
-    sb.load_cookie_str(cookies)
-    res = sb.checkin()
-    print(res)
-    SERVERCHAN_SECRETKEY = os.environ["SERVERCHAN_SECRETKEY"]
-    print('sc_key: ', SERVERCHAN_SECRETKEY)
-    if isinstance(SERVERCHAN_SECRETKEY,str) and len(SERVERCHAN_SECRETKEY)>0:
-        print('检测到 SCKEY， 准备推送')
-        push_to_wechat(text = '什么值得买每日签到',
-                        desp = str(res),
-                        secretKey = SERVERCHAN_SECRETKEY)
-    #print('代码完毕')
+    try:
+        cookies = os.environ["COOKIES"]
+    except KeyError:
+        if config.TEST_COOKIE:
+            cookies = config.TEST_COOKIE
+    if cookies:
+        sb.load_cookie_str(cookies)
+        res = sb.checkin()
+        print(res)
+    else:
+        res = "缺少cookie,stop"
+        print(res)
+    try:
+        SERVERCHAN_SECRETKEY = os.environ["SERVERCHAN_SECRETKEY"]
+    except KeyError:
+        if config.SERVERCHAN_SECRETKEY:
+            SERVERCHAN_SECRETKEY = config.SERVERCHAN_SECRETKEY
+    if SERVERCHAN_SECRETKEY:
+        push_res_to_server(SERVERCHAN_SECRETKEY, res)
