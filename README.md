@@ -16,8 +16,10 @@
 # 2. 使用方法
 1. Fork [此仓库项目](https://github.com/stark666/smzdm_bot) > 点击右上角fork按钮即可，欢迎点`star`~
 2. Secret新增`SMZDM_COOKIE`，填入浏览器调试模式从[什么值得买官网](https://www.smzdm.com/)cookie信息, 不懂可看下面的其它
-3. （可选）Secret新增`SERVERCHAN_SECRETKEY`，获取方法可看这篇文章[@ruicky教程](https://ruicky.me/2020/06/05/jd-sign/)
-4. fork后必须修改一下文件，才能执行定时任务, 可修改 `README.MD`, 添加一个空格
+3. Secret新增`URL`，获取方式为登录ZDM后，按F12进入调试模式，点击network，先清空，然后签到，进行验证，验证后先不要操作页面，观察network中会出现jsonp开头的，点击右侧headers复制Request_URL即可。
+<img src="pics/URL获取示例.png" width="900" height="400" alt="URL获取示例" div align=center /><br/>
+4. （可选）Secret新增`SERVERCHAN_SECRETKEY`，获取方法可看这篇文章[@ruicky教程](https://ruicky.me/2020/06/05/jd-sign/)
+5. fork后必须修改一下文件，才能执行定时任务, 可修改 `README.MD`, 添加一个空格
 
 
 # 3. 其它
@@ -44,3 +46,6 @@ first push
 + 2020-12-12  
 修复如果没有填写`SERVERCHAN_SECRETKEY`，会在正常签到后报错的问题。  
 现在没有`SERVERCHAN_SECRETKEY`也可以正常签到并不报错。
+
++2022-12-20
+网页签到需要极验验证，通过换url过验证。暂不明确该url是否一直不变

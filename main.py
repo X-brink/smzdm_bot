@@ -40,7 +40,13 @@ class SMZDM_Bot(object):
         """
         签到函数
         """
-        url = 'https://zhiyou.smzdm.com/user/checkin/jsonp_checkin'
+        try:
+            url = os.environ["URL"]
+        except KeyError:
+            if config.URL:
+                url = config.URL
+            else:
+                url = 'https://zhiyou.smzdm.com/user/checkin/jsonp_checkin'
         params = {
             "callback": "myCalback",
             "_": int(time.time()*1000)

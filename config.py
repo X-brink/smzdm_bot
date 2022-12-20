@@ -25,3 +25,8 @@ TEST_COOKIE = ''
 调试用 SERVERCHAN_SECRETKEY
 """
 SERVERCHAN_SECRETKEY = ''
+
+"""
+调试用 URL
+"""
+URL = ''
