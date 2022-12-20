@@ -60,17 +60,20 @@ class SMZDM_Bot(object):
         data = json.loads(content[content.find("{"):content.rfind(")")])
         if data.get("error_code") == 0:
             res = "张大妈签到成功！！！总签到天数：" + str(data.get("data").get("checkin_num"))
+            summary_res = "success, " + str(data.get("data").get("checkin_num")) + " days"
         else:
             res = "签到失败，原因：" + data.get("error_msg")
-        return res
+            summary_res = "failed"
+        return res, summary_res
 
 
-def push_res_to_server(SERVERCHAN_SECRETKEY, res):
+def push_res_to_server(SERVERCHAN_SECRETKEY, res, summary_res):
     if SERVERCHAN_SECRETKEY:
         print('sc_key: ', SERVERCHAN_SECRETKEY)
         if isinstance(SERVERCHAN_SECRETKEY,str) and len(SERVERCHAN_SECRETKEY)>0:
             print('检测到 SCKEY， 准备推送')
-            push_to_wechat(text = '什么值得买每日签到',
+            this_text = "什么值得买每日签到" + summary_res
+            push_to_wechat(text = this_text,
                             desp = str(res),
                             secretKey = SERVERCHAN_SECRETKEY)
 
@@ -83,7 +86,7 @@ if __name__ == '__main__':
             cookies = config.TEST_COOKIE
     if cookies:
         sb.load_cookie_str(cookies)
-        res = sb.checkin()
+        res, summary_res = sb.checkin()
         print(res)
     else:
         res = "缺少cookie,stop"
@@ -94,4 +97,4 @@ if __name__ == '__main__':
         if config.SERVERCHAN_SECRETKEY:
             SERVERCHAN_SECRETKEY = config.SERVERCHAN_SECRETKEY
     if SERVERCHAN_SECRETKEY:
-        push_res_to_server(SERVERCHAN_SECRETKEY, res)
+        push_res_to_server(SERVERCHAN_SECRETKEY, res, summary_res)
